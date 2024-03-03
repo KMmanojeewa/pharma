@@ -112,9 +112,9 @@ class ProductController extends Controller
     public function delete(string $id)
     {
         $this->authorize('create-delete-product');
-        $user = Product::find($id);
-        if($user) {
-            $user->forceDelete();
+        $product = Product::find($id);
+        if($product) {
+            $product->forceDelete();
             return response()->json([
                 'message' => 'successfully deleted',
             ]);
