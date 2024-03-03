@@ -44,6 +44,15 @@ Route::get('/trashed', function () {
     return \App\Models\User::withTrashed()->find(4);
 });
 
+Route::get('/orders', function () {
+    $orders = \Illuminate\Support\Facades\DB::table('orders')->select('id','customer_id')->get();
+    return $orders;
+});
+
+Route::get('/items', function () {
+    return \App\Models\OrderItem::all();
+});
+
 
 
 Route::group(['prefix' => 'auth'], function () {
@@ -71,6 +80,7 @@ Route::group(['prefix' => 'auth'], function () {
         Route::delete('product-soft-delete/{id}', [ProductController::class, 'soft_delete']); //soft delete product
         Route::delete('product-delete/{id}', [ProductController::class, 'delete']); //delete product
         Route::get('is-product/{id}', [ProductController::class, 'check_product']); //check product is available
+        Route::post('/products/{product}/buy', [ProductController::class, 'buy']);
 
 
         Route::get('/customers', [CustomerController::class, 'index']); //get all customers
@@ -80,5 +90,6 @@ Route::group(['prefix' => 'auth'], function () {
         Route::delete('customer-soft-delete/{id}', [CustomerController::class, 'soft_delete']); //soft delete customer
         Route::delete('customer-delete/{id}', [CustomerController::class, 'delete']); //delete customer
         Route::get('is-customer/{id}', [CustomerController::class, 'check_customer']); //check customer is available
+        Route::post('/customer/{customer}/make-order', [CustomerController::class, 'make_order']);
     });
 });

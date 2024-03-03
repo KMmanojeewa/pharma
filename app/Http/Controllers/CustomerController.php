@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -12,6 +14,23 @@ class CustomerController extends Controller
     public function index()
     {
         //
+    }
+
+    public function make_order(Customer $customer, Request $request)
+    {
+        $status = $request->input('status');
+        $order = new Order([
+//            'status' => $status,
+            'customer_id' => $customer->id,
+        ]);
+        if ($order->save()) {
+            return response()->json([
+                'message' => 'Successfully created!',
+                'data' => $order->id
+            ], 201);
+        } else {
+            return response()->json(['error' => 'Provide proper details']);
+        }
     }
 
     /**

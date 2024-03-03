@@ -15,8 +15,15 @@ class Customer extends Model
         'phone',
     ];
 
-    public function products()
+    public function orders()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->hasMany(Order::class);
     }
+
+
+//    public function products()
+//    {
+//        return $this->belongsToMany(Product::class);
+//    }
+
 }

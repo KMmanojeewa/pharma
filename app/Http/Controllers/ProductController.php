@@ -139,4 +139,17 @@ class ProductController extends Controller
             'message' => $message
         ]);
     }
+
+    public function buy(Product $product, Request $request)
+    {
+        $quantity = $request->input('quantity');
+
+        if ($product->quantity >= $quantity) {
+            $product->quantity -= $quantity;
+            $product->save();
+            return response()->json(['message' => 'Product purchased successfully'], 200);
+        } else {
+            return response()->json(['error' => 'Not enough stock available'], 400);
+        }
+    }
 }
