@@ -113,10 +113,16 @@ class ProductController extends Controller
     {
         $this->authorize('create-delete-product');
         $product = Product::find($id);
+
         if($product) {
             $product->forceDelete();
             return response()->json([
                 'message' => 'successfully deleted',
+            ]);
+        } else if($product = Product::withTrashed()->find($id)) {
+            $product->forceDelete();
+            return response()->json([
+                'message' => 'soft deleted product successfully deleted',
             ]);
         } else {
             return response()->json([

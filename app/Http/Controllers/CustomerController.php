@@ -131,6 +131,11 @@ class CustomerController extends Controller
             return response()->json([
                 'message' => 'successfully deleted',
             ]);
+        } else if($customer = Customer::withTrashed()->find($id)) {
+            $customer->forceDelete();
+            return response()->json([
+                'message' => 'soft deleted customer successfully deleted',
+            ]);
         } else {
             return response()->json([
                 'message' => 'something wrong with URL or parameters'

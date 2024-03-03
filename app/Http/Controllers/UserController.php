@@ -107,6 +107,11 @@ class UserController extends Controller
             return response()->json([
                 'message' => 'successfully deleted',
             ]);
+        } else if($user = User::withTrashed()->find($id)) {
+            $user->forceDelete();
+            return response()->json([
+                'message' => 'soft deleted user successfully deleted',
+            ]);
         } else {
             return response()->json([
                 'message' => 'something wrong with URL or parameters'
